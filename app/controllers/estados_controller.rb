@@ -28,4 +28,20 @@ class EstadosController < ApplicationController
     end
     render json: cidades, status: 200
   end
+
+  def lista_bairros 
+    bairros = [
+      {nome:"Jardim America", uf: "SP"},
+      {nome:"Bairro Fundo", uf: "SP"},
+      {nome:"Barra Funda", uf: "RJ"},
+      {nome:"Rocinha", uf: "RJ"},
+      {nome:"Bairro Mineiro", uf: "MG"},
+      {nome:"Pantanal", uf: "GO"},
+      {nome:"Bairro sem fim", uf: "ES"} 
+    ]
+    if params["uf"].present?
+      bairros = bairros.select{|e| e[:uf].downcase == params["uf"].downcase}
+    end
+    render json: bairros, status: 200
+  end
 end
