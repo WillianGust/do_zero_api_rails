@@ -1,4 +1,11 @@
 class EstadosController < ApplicationController
+
+  
+  def proxy 
+    estados = RestClient.get("http://localhost:4000/estados.json")
+    render json: estados.body, status: 200
+  end
+
   def index 
     estados = [
       {nome:"Sao Paulo", uf: "SP"},
@@ -8,7 +15,7 @@ class EstadosController < ApplicationController
       {nome:"Espirito Santo", uf: "ES"} 
     ]
     if params["uf"].present?
-      estados = estados.select{|e| e[:uf].downcase == params["uf"].downcase}
+      estados = estados.select{ks|e| e[:uf].downcase == params["uf"].downcase}
     end
     render json: estados, status: 200
   end

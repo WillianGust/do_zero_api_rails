@@ -29,7 +29,7 @@
 
 var loadEstados = function(){
  $.ajax({
-    url: "http://localhost:4000/estados.json"
+    url: "http://localhost:4000/estados-proxy.json"
   }).done(function(dados) {
     $("#estados").html("<option>Selecione</option>")
     $(dados).each(function(){
