@@ -1,12 +1,17 @@
 class EstadosController < ApplicationController
-
   
   def proxy 
     estados = RestClient.get("http://localhost:4000/estados.json")
     render json: estados.body, status: 200
   end
-
-  def index 
+  def release_cross_domain 
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
+  end
+  def index
+    release_cross_domain 
     estados = [
       {nome:"Sao Paulo", uf: "SP"},
       {nome:"Rio de Janeiro", uf: "RJ"},
@@ -21,6 +26,7 @@ class EstadosController < ApplicationController
   end
 
   def lista_cidades 
+    release_cross_domain
     cidades = [
       {nome:"Jundiai", uf: "SP"},
       {nome:"Campinas", uf: "SP"},
@@ -37,6 +43,7 @@ class EstadosController < ApplicationController
   end
 
   def lista_bairros 
+    release_cross_domain
     bairros = [
       {nome:"Jardim America", uf: "SP"},
       {nome:"Bairro Fundo", uf: "SP"},
