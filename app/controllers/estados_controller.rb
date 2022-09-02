@@ -4,12 +4,7 @@ class EstadosController < ApplicationController
     estados = RestClient.get("http://localhost:4000/estados.json")
     render json: estados.body, status: 200
   end
-  def release_cross_domain 
-    headers['Access-Control-Allow-Origin'] = '*'
-    headers['Access-Control-Allow-Methods'] = 'GET'
-    headers['Access-Control-Request-Method'] = '*'
-    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
-  end
+  
   def index
     release_cross_domain 
     estados = [
@@ -57,5 +52,13 @@ class EstadosController < ApplicationController
       bairros = bairros.select{|e| e[:uf].downcase == params["uf"].downcase}
     end
     render json: bairros, status: 200
+  end
+
+  private 
+  def release_cross_domain 
+    headers['Access-Control-Allow-Origin'] = '*'
+    headers['Access-Control-Allow-Methods'] = 'GET'
+    headers['Access-Control-Request-Method'] = '*'
+    headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
   end
 end
