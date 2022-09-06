@@ -23,6 +23,26 @@
     <option>Selecione</option>
   </select>
 </div>
+<h1>Lista de Carro - HERE START THE FUN</h1>
+  <table class="table" id="tableCarros">
+    <thead>
+      <tr>  
+        <th>Nome</th>
+        <th>Modelo</th>
+        <th>Marca</th>
+        <th>Ano</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>  
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
 
 <script type="text/javascript", src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -48,7 +68,6 @@ var loadCidades = function(uf){
       $("#cidades").append("<option value='" + this.uf + "'>" + this.nome + "</option>")
     });
   });
-
 }
 
 var loadBairro = function(uf){
@@ -60,7 +79,20 @@ var loadBairro = function(uf){
       $("#bairros").append("<option value='" + this.uf + "'>" + this.nome + "</option>")
     });
   });
-
 }
 loadEstados();
+
+var loadCarros = function(){
+  $.ajax({
+    url: "http://localhost:4000/cars.json"
+  }).done(function(cars) {
+    $(cars).each(function(){
+      $("#tableCarros tbody").append("<tr><td>" + this.nome + "</td><td>" + this.modelo + "</td><td>" + this.marca + "</td><td>" + this.ano + "</td></tr>")
+    });
+  });
+}
+
+loadCarros();
 </script>
+
+
