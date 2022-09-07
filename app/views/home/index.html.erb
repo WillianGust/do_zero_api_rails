@@ -24,6 +24,17 @@
   </select>
 </div>
 <h1>Lista de Carro - HERE START THE FUN</h1>
+
+   <fieldset id="formCarro">
+    <legend>Carro:</legend>
+    Nome: <input type="text" name="" id="nome"><br>
+    Marca: <input type="text" name="" id="marca"><br>
+    Modelo: <input type="text" name="" id="modelo"><br>
+    Ano: <input type="number" name="" id="ano"><br>
+    <button onclick= "SalvarFormCarros()">salvar</button>
+  </fieldset>
+  
+
   <table class="table" id="tableCarros">
     <thead>
       <tr>  
@@ -81,7 +92,7 @@ var loadBairro = function(uf){
   });
 }
 loadEstados();
-
+ 
 var loadCarros = function(){
   $.ajax({
     url: "http://localhost:4000/cars.json"
@@ -93,6 +104,25 @@ var loadCarros = function(){
 }
 
 loadCarros();
+
+var SalvarFormCarros = function(){
+  dados = {
+    car: {
+      nome: $("#nome").val(),
+      marca: $("#marca").val(),
+      modelo: $("#modelo").val(),
+      ano: $("#ano").val()
+    }
+  }
+   $.post({
+    url: "http://localhost:4000/cars.json",
+    data: dados
+  }).done(function(cars) {
+     loadCarros();
+}).fail(function() {
+     alert("Erros cadastro carros");
+  });
+}
 </script>
 
 
