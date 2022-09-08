@@ -94,6 +94,7 @@ var loadBairro = function(uf){
 loadEstados();
  
 var loadCarros = function(){
+  $("#tableCarros tbody").html("");
   $.ajax({
     url: "http://localhost:4000/cars.json"
   }).done(function(cars) {
