@@ -42,6 +42,7 @@
         <th>Modelo</th>
         <th>Marca</th>
         <th>Ano</th>
+        <th></th>
       </tr>
     </thead>
 
@@ -99,12 +100,42 @@ var loadCarros = function(){
     url: "http://localhost:4000/cars.json"
   }).done(function(cars) {
     $(cars).each(function(){
-      $("#tableCarros tbody").append("<tr><td>" + this.nome + "</td><td>" + this.modelo + "</td><td>" + this.marca + "</td><td>" + this.ano + "</td></tr>")
+      $("#tableCarros tbody").append("<tr data-id= '" + this.id + "' ondblclick='alterarLinha(this)'><td data-nome='nome'>" 
+      + this.nome + "</td><td data-nome='modelo'>" + this.modelo + "</td><td data-nome='marca'>" 
+      + this.marca + "</td><td data-nome='ano'>" + this.ano + "</td><td data-nome='apagar'><a href='javascript:apagar(this)'>Apagar</a>" + this.ano + "</td></tr>")
     });
   });
 }
 
 loadCarros();
+
+var alterarLinha = function(self){
+  $(self).find("td").each(function(){
+    var conteudo = $(this).text();
+    $(this).html("<input type='text' onblur='salvar(this)' name='" + $(this).data("nome") + "' value='" + conteudo + "'>");
+  });
+}
+
+var salvar = function(self){
+
+  var carroId = $(self).parents("tr").data("id");
+  var campo = $(self).attr("name");
+  
+  var carro = {};
+  carro[campo] = $(self).val();
+
+  $.ajax({
+    type:'PUT',
+    url: "http://localhost:4000/cars/" + carroId + ".json",
+    data: {
+      car: carro
+    }
+    }).done(function(cars) {
+         $(self).parents("td").html($(self).val());
+    }).fail(function() {
+     alert("Error atualizar campo " + campo + " da tabela carros");
+  });
+}
 
 var SalvarFormCarros = function(){
   dados = {
@@ -118,10 +149,14 @@ var SalvarFormCarros = function(){
    $.post({
     url: "http://localhost:4000/cars.json",
     data: dados
-  }).done(function(cars) {
-     loadCarros();
-}).fail(function() {
-     alert("Erros cadastro carros");
+    }).done(function(cars) {
+      $("#nome").val("");
+      $("#marca").val("");
+      $("#modelo").val("");
+      $("#ano").val("");
+        loadCarros();  
+    }).fail(function() {
+     alert("Error cadastro carros");
   });
 }
 </script>
