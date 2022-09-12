@@ -102,7 +102,7 @@ var loadCarros = function(){
     $(cars).each(function(){
       $("#tableCarros tbody").append("<tr data-id= '" + this.id + "' ondblclick='alterarLinha(this)'><td data-nome='nome'>" 
       + this.nome + "</td><td data-nome='modelo'>" + this.modelo + "</td><td data-nome='marca'>" 
-      + this.marca + "</td><td data-nome='ano'>" + this.ano + "</td><td data-nome='apagar'><a href='javascript:apagar(this)'>Apagar</a>" + this.ano + "</td></tr>")
+      + this.marca + "</td><td data-nome='ano'>" + this.ano + "</td><td data-nome='apagar'><a href=\"javascript:apagar(\'" + this.id + "\')\">Apagar</a></td></tr>")
     });
   });
 }
@@ -112,7 +112,9 @@ loadCarros();
 var alterarLinha = function(self){
   $(self).find("td").each(function(){
     var conteudo = $(this).text();
-    $(this).html("<input type='text' onblur='salvar(this)' name='" + $(this).data("nome") + "' value='" + conteudo + "'>");
+    if($(this).data("nome") != "apagar"){
+      $(this).html("<input type='text' onblur='salvar(this)' name='" + $(this).data("nome") + "' value='" + conteudo + "'>");
+    }
   });
 }
 
@@ -134,6 +136,17 @@ var salvar = function(self){
          $(self).parents("td").html($(self).val());
     }).fail(function() {
      alert("Error atualizar campo " + campo + " da tabela carros");
+  });
+}
+
+var apagar = function(carroId){
+  $.ajax({
+    type:'DELETE',
+    url: "http://localhost:4000/cars/" + carroId + ".json",
+    }).done(function(cars) {
+         loadCarros();
+    }).fail(function() {
+     alert("Error ao apagar carro");
   });
 }
 
