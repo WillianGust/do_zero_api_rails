@@ -20,6 +20,10 @@ class CarsController < ApplicationController
   def edit
   end
 
+  def proxy
+    
+  end
+
   # POST /cars or /cars.json
   def create
     @car = Car.new(car_params)

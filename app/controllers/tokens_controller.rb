@@ -19,6 +19,11 @@ class TokensController < ApplicationController
   def edit
   end
 
+  def token_acesso
+    token = token.create(valor: SecureRandom.uuid, data_inicial: (Time.zone.now - 10.minutes), data_final: (Time.zone.now + 10.minutes))
+    render json: {token:token.valor}, status: 201
+  end
+
   # POST /tokens or /tokens.json
   def create
     @token = Token.new(token_params)
@@ -65,6 +70,6 @@ class TokensController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def token_params
-      params.require(:token).permit(:valor)
+      params.require(:token).permit(:valor, :data_inicial, :data_final)
     end
 end

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get '/bairros', to: 'estados#lista_bairros'
   get '/estados', to: 'estados#index'
   get '/estados-proxy', to: 'estados#proxy'
+  get '/token-acesso', to: 'tokens#token_acesso'
+  get '/cars-proxy', to: 'cars#proxy'
   
   
   root to: 'home#index'
